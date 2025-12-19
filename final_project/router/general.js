@@ -39,6 +39,18 @@ const getBookViaAuthor = (author) => {
     });
 }
 
+// Helper that returns a book based on Title via a Promise
+const getBookViaTitle = (title) => {
+    return new Promise((resolve, reject) => {
+        const matchingBooks = Object.values(books).filter(book => book.title === title);
+        if (matchingBooks.length === 0) {
+            reject(new Error("No books found for this title"));
+        } else {
+            resolve(matchingBooks);
+        }
+    });
+}
+
 // Register a user
 public_users.post("/register", (req,res) => {
     const {username, password} = req.body;
@@ -85,13 +97,14 @@ public_users.get('/author/:author', async function (req, res) {
 });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
+public_users.get('/title/:title', async function (req, res) {
     const title = req.params.title;
-    const matchingBooks = Object.values(books).filter(book => book.title === title);
-    if (matchingBooks.length === 0) {
-        return res.status(404).json({ message: "No books found for this title" });
+    try {
+        const matchingBooks = await getBookViaTitle(title);
+        return res.status(200).json(matchingBooks);
+    } catch (err) {
+        return res.status(404).json({ message: err.message});
     }
-    return res.status(200).json(matchingBooks);    
 });
 
 //  Get book review
