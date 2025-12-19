@@ -27,6 +27,18 @@ const getBookViaISBN = (isbn) => {
     });
 }
 
+// Helper that returns a book based on Author via a Promise
+const getBookViaAuthor = (author) => {
+    return new Promise((resolve, reject) => {
+        const matchingBooks = Object.values(books).filter(book => book.author === author);
+        if (matchingBooks.length === 0) {
+            reject(new Error("No books found for this author"));
+        } else {
+            resolve(matchingBooks);
+        }
+    });
+}
+
 // Register a user
 public_users.post("/register", (req,res) => {
     const {username, password} = req.body;
@@ -62,13 +74,14 @@ public_users.get('/isbn/:isbn', async function (req, res) {
  });
   
 // Get book details based on author
-public_users.get('/author/:author',function (req, res) {
+public_users.get('/author/:author', async function (req, res) {
     const author = req.params.author;
-    const matchingBooks = Object.values(books).filter(book => book.author === author);
-    if (matchingBooks.length === 0) {
-        return res.status(404).json({ message: "No books found for this author" });
+    try {
+        const matchingBooks = await getBookViaAuthor(author);
+        return res.status(200).json(matchingBooks);
+    } catch (err) {
+        return res.status(404).json({ message: err.message});
     }
-    return res.status(200).json(matchingBooks);
 });
 
 // Get all books based on title
