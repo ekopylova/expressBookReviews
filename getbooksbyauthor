@@ -1,0 +1,2 @@
+curl -X GET https://ekopylova-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/author/Unknown
+[{"author":"Unknown","title":"The Epic Of Gilgamesh","reviews":{}},{"author":"Unknown","title":"The Book Of Job","reviews":{}},{"author":"Unknown","title":"One Thousand and One Nights","reviews":{}},{"author":"Unknown","title":"Njál's Saga","reviews":{}}]

@@ -1,0 +1,2 @@
+curl -X PUT "https://ekopylova-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/customer/auth/review/1?review=Amazing%20book!" -b cookies.txt
+{"message":"Review added/updated successfully","reviews":{"test3":"Amazing book!"}}

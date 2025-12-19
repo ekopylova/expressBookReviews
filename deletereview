@@ -1,0 +1,2 @@
+curl -X DELETE "https://ekopylova-5000.th0ianext-0-labs-prod-misc-tools-us-east-0.proxy.coxnitiveclass.ai/customer/auth/review/1" -b cookies.txt
+{"message":"Reviews deleted successfully","reviews":{}}

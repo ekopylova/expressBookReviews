@@ -1,0 +1,2 @@
+curl -X POST https://ekopylova-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/customer/login -H "Content-Type: application/json" -d '{"username":"test2","password":"mypassword"}'
+{"message":"User successfully logged in"}
