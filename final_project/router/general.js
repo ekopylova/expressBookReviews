@@ -15,6 +15,18 @@ const getBooks = () => {
     });
 }
 
+// Helper that returns a book via ISBN via a Promise
+const getBookViaISBN = (isbn) => {
+    return new Promise((resolve, reject) => {
+        const book = books[isbn];
+        if (book) {
+            resolve(book);
+        } else {
+            reject(new Error("Book not found!"));
+        }
+    });
+}
+
 // Register a user
 public_users.post("/register", (req,res) => {
     const {username, password} = req.body;
@@ -34,19 +46,19 @@ public_users.get('/', async function (req, res) {
       const allBooks = await getBooks();
       return res.status(200).json(allBooks);
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Error fetching books" });
+      return res.status(500).json({ message: err.message });
     }
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
+public_users.get('/isbn/:isbn', async function (req, res) {
     const isbn = req.params.isbn;
-    const book = books[isbn];
-    if (!book) {
-        return res.status(404).json({ message: "Book not found" });
-    }
-    return res.status(200).json(book);
+    try {
+        const book = await getBookViaISBN(isbn);
+        return res.status(200).json(book);
+    } catch (err) {
+        return res.status(404).json({ message: err.message });
+    }    
  });
   
 // Get book details based on author
